@@ -77,7 +77,7 @@ export default function Form({
             </div>
           </div>
 
-          <div id="customer-error" aria-live="polite" aria-atomic="true">
+          <div id="amount-error" aria-live="polite" aria-atomic="true">
             {state.errors?.amount &&
               state.errors.amount.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
@@ -128,7 +128,7 @@ export default function Form({
             </div>
           </div>
 
-          <div id="customer-error" aria-live="polite" aria-atomic="true">
+          <div id="status-error" aria-live="polite" aria-atomic="true">
             {state.errors?.status &&
               state.errors.status.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
@@ -138,7 +138,7 @@ export default function Form({
           </div>
         </fieldset>
 
-        <div id="customer-error" aria-live="polite" aria-atomic="true">
+        <div id="msg-error" aria-live="polite" aria-atomic="true">
           {state.message &&
             <p className="mt-2 text-sm text-red-500">
               {state.message}

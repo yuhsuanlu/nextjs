@@ -85,12 +85,14 @@ export async function updateInvoice(
     prevState: State,
     formData: FormData
 ) {
-    const validatedFields = UpdateInvoice.safeParse({
+    // Validate form fields using Zod
+    const validatedFields = UpdateInvoice.safeParse({ // safeParse() will return an object containing either a success or error field. 
         customerId: formData.get('customerId'),
         amount: formData.get('amount'),
         status: formData.get('status'),
     });
 
+    // If form validation fails, return errors early. Otherwise, continue.
     if (!validatedFields.success) {
         return {
             errors: validatedFields.error.flatten().fieldErrors,
@@ -120,7 +122,7 @@ export async function updateInvoice(
 }
 
 export async function deleteInvoice(id: string) {
-    throw new Error('Failed to Delete Invoice');
+    // throw new Error('Failed to Delete Invoice');
 
 
     try {
