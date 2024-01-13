@@ -20,4 +20,5 @@ export const authConfig = {
         },
     },
     providers: [], // Add providers with an empty array for now
+    // The providers option is an array where you list different login options
 } satisfies NextAuthConfig;

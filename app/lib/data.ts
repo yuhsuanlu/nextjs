@@ -17,15 +17,13 @@ export async function fetchRevenue() {
   noStore();
 
   try {
-    // Artificially delay a response for demo purposes.
-    // Don't do this in production :)
 
     console.log('Fetching revenue data...');
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
-    console.log('Data fetch completed after 3 seconds.');
+    console.log('Data fetch completed after 1.5 seconds.');
 
     return data.rows;
   } catch (error) {
@@ -38,7 +36,7 @@ export async function fetchLatestInvoices() {
   noStore();
   try {
     console.log('Fetching invoices data...');
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     const data = await sql<LatestInvoiceRaw>`
       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
@@ -52,7 +50,7 @@ export async function fetchLatestInvoices() {
       amount: formatCurrency(invoice.amount),
     }));
 
-    console.log('Data fetch completed after 1.5 seconds.');
+    console.log('Data fetch completed after 0.5 seconds.');
 
     return latestInvoices;
   } catch (error) {
@@ -175,8 +173,6 @@ export async function fetchInvoiceById(id: string) {
       amount: invoice.amount / 100,
     }));
 
-    console.log(invoice);  // Invoice is an empty array []
-    console.log('>>>>>');
     return invoice[0];
   } catch (error) {
     console.error('Database Error:', error);

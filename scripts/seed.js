@@ -49,7 +49,7 @@ async function seedUsers(client) {
 async function seedInvoices(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-
+    // await client.sql`DROP TABLE invoices`;
     // Create the "invoices" table if it doesn't exist
     const createTable = await client.sql`
     CREATE TABLE IF NOT EXISTS invoices (
@@ -89,7 +89,7 @@ async function seedInvoices(client) {
 async function seedCustomers(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-
+    // await client.sql`DROP TABLE customers`;
     // Create the "customers" table if it doesn't exist
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS customers (

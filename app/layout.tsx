@@ -5,10 +5,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: {
     template: '%s | Camping',
-    default: 'Acme Dashboard',
+    default: 'Expedition Dashboard',
   },
-  description: 'The official Next.js Learn Dashboard built with App Router.',
-  metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
+  description: 'The official Expedition Dashboard built with App Router.',
 };
 
 export default function RootLayout({
