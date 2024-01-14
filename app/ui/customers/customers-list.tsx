@@ -9,7 +9,7 @@ export default async function CustomersList() {
 
             <ul>
                 {customers.map((customer) => (
-                    <li >
+                    <li key={customer.id}>
                         {customer.name}
                         {/* Add more details or actions as needed */}
                     </li>
