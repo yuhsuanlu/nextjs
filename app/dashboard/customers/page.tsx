@@ -4,39 +4,46 @@ import CustomersList from '@/app/ui/customers/customers-list';
 export const metadata: Metadata = {
     title: 'Customers',
 };
+import Table from '@/app/ui/customers/table';
+import { fetchCustomers } from '@/app/lib/data';
+import {
+    FormattedCustomersTable,
+} from '@/app/lib/definitions';
 
+import {
+    CustomersTableType,
+} from '@/app/lib/definitions';
 
-// import Pagination from '@/app/ui/invoices/pagination';
+import { fetchFilteredCustomers } from '@/app/lib/data';
+
+import Pagination from '@/app/ui/invoices/pagination';
 // import Search from '@/app/ui/search';
 // import Table from '@/app/ui/invoices/table';
 // import { CreateInvoice } from '@/app/ui/invoices/buttons';
 
 // import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 // import { Suspense } from 'react';
-// import { fetchInvoicesPages } from '@/app/lib/data';
+import { fetchInvoicesPages } from '@/app/lib/data';
 // import { Metadata } from 'next';
 
 // export const metadata: Metadata = {
 //     title: 'Invoices',
 // };
 
-export default function Page() {
-    //     searchParams,
-    // }: {
-    //     searchParams?: {
-    //         query?: string;
-    //         page?: string;
-    //     };
-    // }) {
-    //     const query = searchParams?.query || '';
-    //     const currentPage = Number(searchParams?.page) || 1;
-    //     const totalPages = await fetchInvoicesPages(query);
-
+export default async function Page({
+    searchParams,
+}: {
+    searchParams?: {
+        query?: string;
+        page?: string;
+    };
+}) {
+    const query = searchParams?.query || '';
+    const currentPage = Number(searchParams?.page) || 1;
+    const totalPages = await fetchInvoicesPages(query);
+    const customers = await fetchFilteredCustomers(query);
     return (
         <div className="w-full">
-            <div className="flex w-full items-center justify-between">
-                <h1 className={`${lusitana.className} text-2xl`}>Customers</h1>
-            </div>
             {/* <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
                 <Search placeholder="Search invoices..." />
                 <CreateInvoice />
@@ -47,7 +54,10 @@ export default function Page() {
             <div className="mt-5 flex w-full justify-center">
                 {<Pagination totalPages={totalPages} />}
             </div> */}
-            <CustomersList />
+            <Table customers={customers} currentPage={currentPage} />
+            <div className="mt-5 flex w-full justify-center">
+                {<Pagination totalPages={totalPages} />}
+            </div>
         </div>
     );
 }

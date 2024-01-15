@@ -5,8 +5,6 @@ export default async function CustomersList() {
     console.log(customers);
     return (
         <>
-            <h1>hi</h1>
-
             <ul>
                 {customers.map((customer) => (
                     <li key={customer.id}>

@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Camping',
+    template: '%s | Expedition',
     default: 'Expedition Dashboard',
   },
   description: 'The official Expedition Dashboard built with App Router.',
