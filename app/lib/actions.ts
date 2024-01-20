@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 
+// Invoice
 const FormSchema = z.object({
     id: z.string(),
     customerId: z.string({
@@ -23,6 +24,22 @@ const FormSchema = z.object({
 
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
+
+// Customer
+const CustomerFormSchema = z.object({
+    id: z.string(),
+    name: z.string({
+        invalid_type_error: 'Please input customer name.',
+    }),
+    email: z.string({
+        invalid_type_error: 'Please input customer email.',
+    }),
+    image_url: z.string({
+        invalid_type_error: 'Please upload customer image.',
+    }),
+});
+
+const CreateCustomer = CustomerFormSchema.omit({ id: true });
 
 // This is temporary until @types/react-dom is updated
 export type State = {
@@ -58,10 +75,6 @@ export async function createInvoice(prevState: State, formData: FormData) {
     const amountInCents = amount * 100;
     const date = new Date().toISOString().split('T')[0]; // format "YYYY-MM-DD"
 
-    // Test it out:
-    // console.log(formData);
-    // console.log(typeof amount);
-
     try {
         // update the data displayed in the database
         await sql`
@@ -81,6 +94,29 @@ export async function createInvoice(prevState: State, formData: FormData) {
     redirect('/dashboard/invoices');
 
 }
+
+export async function createCustomer(formData: FormData) {
+    const { name, email, image_url } = CreateCustomer.parse({
+        name: formData.get('customerName'),
+        email: formData.get('customerEmail'),
+        image_url: formData.get('customerImage'),
+    });
+    // console.log(rawFormData)
+    console.log(name, email, image_url);
+    try {
+        await sql`
+        INSERT INTO customers (name, email, image_url)
+        VALUES (${name}, ${email}, ${image_url});
+    `;
+    } catch (error) {
+        return {
+            message: 'Database Error: Failed to Update Invoice.',
+        };
+    }
+    revalidatePath('/dashboard/customers');
+    redirect('/dashboard/customers');
+}
+
 
 export async function updateInvoice(
     id: string,

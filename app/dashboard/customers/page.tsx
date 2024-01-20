@@ -6,6 +6,8 @@ import Table from '@/app/ui/customers/table';
 import { fetchFilteredCustomers } from '@/app/lib/data';
 import Pagination from '@/app/ui/invoices/pagination';
 import { fetchCustomersPages } from '@/app/lib/data';
+import Link from 'next/link';
+// import { UploadButton } from '@/app/ui/customers/buttons';
 
 export default async function Page({
     searchParams,
@@ -23,6 +25,7 @@ export default async function Page({
     return (
         <div className="w-full">
             <Table customers={customers} currentPage={currentPage} />
+
             <div className="mt-5 flex w-full justify-center">
                 {<Pagination totalPages={totalPages} />}
             </div>
