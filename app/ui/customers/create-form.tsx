@@ -15,7 +15,7 @@ import {
 } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { UploadButton } from "@uploadthing/react";
-import { OurFileRouter } from "../../../app/api/uploadthing/core";
+import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { useState, ChangeEvent } from 'react'
 
 export default function Form({
