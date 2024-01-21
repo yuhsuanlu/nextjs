@@ -5,10 +5,10 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Expedition',
-    default: 'Expedition Dashboard',
+    template: '%s | Camping',
+    default: 'Camping Dashboard',
   },
-  description: 'The official Expedition Dashboard built with App Router.',
+  description: 'The official Camping Dashboard built with App Router.',
 };
 
 export default function RootLayout({

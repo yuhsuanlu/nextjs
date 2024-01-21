@@ -30,13 +30,13 @@ const CustomerFormSchema = z.object({
     id: z.string(),
     name: z.string({
         invalid_type_error: 'Please input customer name.',
-    }),
+    }).min(1),
     email: z.string({
         invalid_type_error: 'Please input customer email.',
-    }),
+    }).min(1),
     image_url: z.string({
         invalid_type_error: 'Please upload customer image.',
-    }),
+    }).min(1),
 });
 
 const CreateCustomer = CustomerFormSchema.omit({ id: true });
@@ -47,6 +47,15 @@ export type State = {
         customerId?: string[];
         amount?: string[];
         status?: string[];
+    };
+    message?: string | null;
+};
+
+export type CustomerState = {
+    errors?: {
+        name?: string[];
+        email?: string[];
+        image_url?: string[];
     };
     message?: string | null;
 };
@@ -95,14 +104,24 @@ export async function createInvoice(prevState: State, formData: FormData) {
 
 }
 
-export async function createCustomer(formData: FormData) {
-    const { name, email, image_url } = CreateCustomer.parse({
+export async function createCustomer(prevState: CustomerState, formData: FormData) {
+    const validatedFields = CreateCustomer.safeParse({
         name: formData.get('customerName'),
         email: formData.get('customerEmail'),
         image_url: formData.get('customerImage'),
     });
-    // console.log(rawFormData)
-    console.log(name, email, image_url);
+
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing Fields. Failed to Create Invoice.',
+        };
+    }
+
+    // Prepare data for insertion into the database
+    const { name, email, image_url } = validatedFields.data;
+
     try {
         await sql`
         INSERT INTO customers (name, email, image_url)
@@ -129,6 +148,8 @@ export async function updateInvoice(
         amount: formData.get('amount'),
         status: formData.get('status'),
     });
+    console.log(validatedFields)
+    console.log(validatedFields.success);
 
     // If form validation fails, return errors early. Otherwise, continue.
     if (!validatedFields.success) {
