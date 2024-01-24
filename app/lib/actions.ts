@@ -41,6 +41,19 @@ const CustomerFormSchema = z.object({
 
 const CreateCustomer = CustomerFormSchema.omit({ id: true });
 
+// Sign up
+const SignupFormSchema = z.object({
+    id: z.string(),
+    email: z.string({
+        invalid_type_error: 'Please input email.',
+    }).min(1),
+    password: z.string({
+        invalid_type_error: 'Please input password.',
+    }).min(1),
+});
+
+const SignupUser = SignupFormSchema.omit({ id: true });
+
 // This is temporary until @types/react-dom is updated
 export type State = {
     errors?: {
@@ -56,6 +69,14 @@ export type CustomerState = {
         name?: string[];
         email?: string[];
         image_url?: string[];
+    };
+    message?: string | null;
+};
+
+export type SignupState = {
+    errors?: {
+        email?: string[];
+        password?: string[];
     };
     message?: string | null;
 };
@@ -136,6 +157,41 @@ export async function createCustomer(prevState: CustomerState, formData: FormDat
     redirect('/dashboard/customers');
 }
 
+export async function createSignupUser(prevState: SignupState, formData: FormData) {
+    // Validate form fields using Zod
+    const validatedFields = SignupUser.safeParse({
+        email: formData.get('email'),
+        password: formData.get('password'),
+    });
+
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing Fields. Failed to Create Invoice.',
+        };
+    }
+
+    // Prepare data for insertion into the database
+    const { email, password } = validatedFields.data;
+
+    try {
+        // update the data displayed in the database
+        await sql`
+        INSERT INTO users (email, password)
+        VALUES (${email}, ${password})
+    `;
+        alert("Sign up successfully. Please log in now.");
+    } catch (error) {
+        return {
+            message: 'Database Error: Failed to Create Invoice.',
+        };
+    }
+
+    revalidatePath('/login');
+    redirect('/login');
+
+}
 
 export async function updateInvoice(
     id: string,
@@ -148,8 +204,6 @@ export async function updateInvoice(
         amount: formData.get('amount'),
         status: formData.get('status'),
     });
-    console.log(validatedFields)
-    console.log(validatedFields.success);
 
     // If form validation fails, return errors early. Otherwise, continue.
     if (!validatedFields.success) {

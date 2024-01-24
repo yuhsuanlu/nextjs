@@ -33,7 +33,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Chart.js Line Chart',
+      text: 'Revenue Line Chart for 2023',
     },
   },
 };
@@ -45,7 +45,7 @@ export const data = {
   datasets: [
     {
       label: 'Profits',
-      data: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200],
+      data: [100, 200, 500, 400, 350, 300, 600, 700, 670, 800, 900, 870],
       borderColor: 'rgb(255, 99, 132)',
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
     },

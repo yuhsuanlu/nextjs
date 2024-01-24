@@ -23,7 +23,7 @@ export const ourFileRouter = {
             // This code RUNS ON YOUR SERVER after upload
             console.log("Upload complete for userId:", metadata.userId);
 
-            console.log("file url", file.url);
+            // console.log("file url", file.url);
         }),
 
     // Takes a 4 2mb images 
