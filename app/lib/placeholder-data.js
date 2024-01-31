@@ -68,6 +68,72 @@ const customers = [
     email: 'venomoth@pokemon.com',
     image_url: '/customers/venomoth.png',
   },
+  {
+    id: 'e4ce84d3-5732-4421-ad30-b20d03f24c4b',
+    name: 'Charmander C',
+    email: 'charmander@pokemon.com',
+    image_url: '/customers/charmander.png',
+  },
+  {
+    id: 'cb473567-ff57-4f87-9254-370f5c3f6650',
+    name: 'Pikachu P',
+    email: 'pikachu@pokemon.com',
+    image_url: '/customers/pikachu.png',
+  },
+  {
+    id: '707b51fd-4b1b-450f-ba8b-87f29b0b9623',
+    name: 'Raichu R',
+    email: 'raichu@pokemon.com',
+    image_url: '/customers/raichu.png',
+  },
+  {
+    id: '2c822ee3-c2f3-48d4-a7e6-361977cba178',
+    name: 'Wigglytuff W',
+    email: 'wigglytuff@pokemon.com',
+    image_url: '/customers/wigglytuff.png',
+  },
+  {
+    id: 'd403b8bc-9d48-42d6-9780-0d0649ee7532',
+    name: 'Psyduck P',
+    email: 'psyduck@pokemon.com',
+    image_url: '/customers/psyduck.png',
+  },
+  {
+    id: '8b3380f6-27ce-4984-9ca1-665f7983540f',
+    name: 'Ponyta P',
+    email: 'ponyta@pokemon.com',
+    image_url: '/customers/ponyta.png',
+  },
+  {
+    id: 'dcf42feb-c885-4030-a421-32484bfdba8d',
+    name: 'Slowpoke S',
+    email: 'slowpoke@pokemon.com',
+    image_url: '/customers/slowpoke.png',
+  },
+  {
+    id: '2baa13f2-7740-482f-af95-76aae356d469',
+    name: 'Seel S',
+    email: 'seel@pokemon.com',
+    image_url: '/customers/seel.png',
+  },
+  {
+    id: 'dbe108ef-dce2-4877-81b5-a970de9795c7',
+    name: 'Eevee E',
+    email: 'eevee@pokemon.com',
+    image_url: '/customers/eevee.png',
+  },
+  {
+    id: '66a6373f-ea40-424e-8300-726e9e269ba7',
+    name: 'Ditto D',
+    email: 'ditto@pokemon.com',
+    image_url: '/customers/ditto.png',
+  },
+  {
+    id: 'b1afdab8-030e-4f55-9a9a-282ebdd26b99',
+    name: 'Flareon F',
+    email: 'flareon@pokemon.com',
+    image_url: '/customers/flareon.png',
+  },
 ];
 
 const invoices = [

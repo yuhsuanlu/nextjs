@@ -39,26 +39,13 @@ export default function Form({
         </>
     ) : null
 
-    const imgList = (
-        <>
-            {title}
-            <ul>
-                {images.map(image => (
-                    <li key={image.fileUrl} className="mt-2">
-                        <Link href={image.fileUrl} target="_blank">
-                            {image.fileUrl}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        </>
-    )
-
     const [json, setJson] = useState('');
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         // Update the state with the new value
         setJson(event.target.value);
     };
+
+    const [currentImageUrl, setCurrentImageUrl] = useState(customers.image_url);
 
     return (
         <form action={dispatch}>
@@ -133,7 +120,11 @@ export default function Form({
                     <label htmlFor="customerImage" className="mb-2 block text-sm font-medium">
                         Edit Customer Image
                     </label>
-                    <img src={customers.image_url} />
+                    {/*  */}
+                    <div className="flex justify-center py-3">
+                        <img className="w-1/5" src={currentImageUrl || customers.image_url} />
+                    </div>
+
                     <UploadButton
                         <OurFileRouter>
                         endpoint="imageUploader"
@@ -145,6 +136,9 @@ export default function Form({
                                 // response
                                 jsonString = jsonString.slice(1, -1);
                                 setJson(jsonString); // Update the state with JSON data
+                                // To-DO
+                                // how to replace before img with current url
+                                setCurrentImageUrl(url)
                             }
                             alert("Upload Completed");
                         }}
@@ -162,9 +156,7 @@ export default function Form({
                         step="0.01"
                         className="invisible"
                     />
-
-
-                    {imgList}
+                    {title}
                 </div>
 
                 <div id="image-error" aria-live="polite" aria-atomic="true">
