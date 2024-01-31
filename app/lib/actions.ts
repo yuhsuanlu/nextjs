@@ -125,7 +125,10 @@ export async function createInvoice(prevState: State, formData: FormData) {
 
 }
 
-export async function createCustomer(prevState: CustomerState, formData: FormData) {
+export async function createCustomer(
+    prevState: CustomerState,
+    formData: FormData
+) {
     const validatedFields = CreateCustomer.safeParse({
         name: formData.get('customerName'),
         email: formData.get('customerEmail'),
@@ -136,7 +139,7 @@ export async function createCustomer(prevState: CustomerState, formData: FormDat
     if (!validatedFields.success) {
         return {
             errors: validatedFields.error.flatten().fieldErrors,
-            message: 'Missing Fields. Failed to Create Invoice.',
+            message: 'Missing Fields. Failed to Create Customer.',
         };
     }
 
@@ -150,7 +153,44 @@ export async function createCustomer(prevState: CustomerState, formData: FormDat
     `;
     } catch (error) {
         return {
-            message: 'Database Error: Failed to Update Invoice.',
+            message: 'Database Error: Failed to Create Customer.',
+        };
+    }
+    revalidatePath('/dashboard/customers');
+    redirect('/dashboard/customers');
+}
+
+export async function updateCustomer(
+    id: string,
+    prevState: CustomerState,
+    formData: FormData
+) {
+    const validatedFields = CreateCustomer.safeParse({
+        name: formData.get('customerName'),
+        email: formData.get('customerEmail'),
+        image_url: formData.get('customerImage'),
+    });
+
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing Fields. Failed to Update Customer.',
+        };
+    }
+
+    // Prepare data for insertion into the database
+    const { name, email, image_url } = validatedFields.data;
+
+    try {
+        await sql`
+        UPDATE customers
+        SET name = ${name}, email = ${email}, image_url = ${image_url}
+        WHERE id = ${id}
+    `;
+    } catch (error) {
+        return {
+            message: 'Database Error: Failed to Update Customer.',
         };
     }
     revalidatePath('/dashboard/customers');
@@ -235,8 +275,6 @@ export async function updateInvoice(
 }
 
 export async function deleteInvoice(id: string) {
-    // throw new Error('Failed to Delete Invoice');
-
 
     try {
         await sql`DELETE FROM invoices WHERE id = ${id}`;
@@ -245,6 +283,23 @@ export async function deleteInvoice(id: string) {
     } catch (error) {
         return {
             message: 'Database Error: Failed to Delete Invoice.',
+        };
+    }
+
+    // Calling revalidatePath will trigger a new server request and re-render the table.
+    // revalidatePath('/dashboard/invoices');
+    // Since this action is being called in the /dashboard/invoices path, you don't need to call redirect
+}
+
+export async function deleteCustomer(id: string) {
+
+    try {
+        await sql`DELETE FROM customers WHERE id = ${id}`;
+        revalidatePath('/dashboard/customers');
+        return { message: 'Deleted Customer.' };
+    } catch (error) {
+        return {
+            message: 'Database Error: Failed to Delete Customer.',
         };
     }
 

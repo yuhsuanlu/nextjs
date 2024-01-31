@@ -6,6 +6,8 @@ import {
   CustomersTableType,
   FormattedCustomersTable,
 } from '@/app/lib/definitions';
+import { UpdateCustomer, DeleteCustomer } from '@/app/ui/customers/buttons';
+
 
 export default async function CustomersTable({
   customers,
@@ -37,7 +39,15 @@ export default async function CustomersTable({
                     <div className="flex items-center justify-between border-b pb-4">
                       <div>
                         <div className="mb-2 flex items-center">
+                          {/*  */}
+
+                          <div className="flex justify-end gap-5">
+                            <UpdateCustomer id={customer.id} />
+                            <DeleteCustomer id={customer.id} />
+                          </div>
+
                           <div className="flex items-center gap-3">
+
                             <Image
                               src={customer.image_url}
                               className="rounded-full"
@@ -46,8 +56,6 @@ export default async function CustomersTable({
                               height={28}
                             />
                             <p>{customer.name}</p>
-                            {/* /////// */}
-                            <p>{customer.image_url}</p>
                           </div>
                         </div>
                         <p className="text-sm text-gray-500">
@@ -75,6 +83,8 @@ export default async function CustomersTable({
                 <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
                   <tr>
                     <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                    </th>
+                    <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
                       Name
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
@@ -95,8 +105,16 @@ export default async function CustomersTable({
                 <tbody className="divide-y divide-gray-200 text-gray-900">
                   {customers.map((customer) => (
                     <tr key={customer.id} className="group">
+                      <td className="whitespace-nowrap bg-white px-4 py-5">
+                        <div className="flex justify-center gap-3" >
+                          <UpdateCustomer id={customer.id} />
+                          <DeleteCustomer id={customer.id} />
+                        </div>
+                      </td>
                       <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
+
                         <div className="flex items-center gap-3">
+                          {/* <UpdateCustomer id={customer.id} /> */}
                           <Image
                             src={customer.image_url}
                             className="rounded-full"
@@ -126,7 +144,7 @@ export default async function CustomersTable({
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </div >
   );
 }

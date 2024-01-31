@@ -1,6 +1,6 @@
 'use client';
 
-import { CustomerField } from '@/app/lib/definitions';
+import { Customer } from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
     AtSymbolIcon,
@@ -10,8 +10,7 @@ import {
 
 import { Button } from '@/app/ui/button';
 import {
-    createInvoice,
-    createCustomer,
+    updateCustomer
 } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { UploadButton } from "@uploadthing/react";
@@ -21,10 +20,11 @@ import { useState, ChangeEvent } from 'react'
 export default function Form({
     customers,
 }: {
-    customers: CustomerField[];
+    customers: Customer;
 }) {
     const initialState = { message: null, errors: {} };
-    const [state, dispatch] = useFormState(createCustomer, initialState);
+    const updateCustomerWithId = updateCustomer.bind(null, customers.id);
+    const [state, dispatch] = useFormState(updateCustomerWithId, initialState);
 
     // upload image
     const [images, setImages] = useState<{
@@ -45,12 +45,9 @@ export default function Form({
             <ul>
                 {images.map(image => (
                     <li key={image.fileUrl} className="mt-2">
-                        {/* <Link href={image.fileUrl} target="_blank">
-                            
-                        </Link> */}
-
-                        <img className="h-auto max-w-full" src={image.fileUrl} alt="customer image" />
-
+                        <Link href={image.fileUrl} target="_blank">
+                            {image.fileUrl}
+                        </Link>
                     </li>
                 ))}
             </ul>
@@ -84,6 +81,7 @@ export default function Form({
                                 placeholder="Enter Customer Name"
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 aria-describedby="name-error"
+                                defaultValue={customers.name}
                             />
                             <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
                         </div>
@@ -114,6 +112,7 @@ export default function Form({
                                 placeholder="Enter Email"
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 aria-describedby="email-error"
+                                defaultValue={customers.email}
                             />
                             <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
                         </div>
@@ -132,8 +131,9 @@ export default function Form({
                 {/* Customer Image */}
                 <div className="mb-4">
                     <label htmlFor="customerImage" className="mb-2 block text-sm font-medium">
-                        Upload Customer Image
+                        Edit Customer Image
                     </label>
+                    <img src={customers.image_url} />
                     <UploadButton
                         <OurFileRouter>
                         endpoint="imageUploader"
@@ -163,6 +163,7 @@ export default function Form({
                         className="invisible"
                     />
 
+
                     {imgList}
                 </div>
 
@@ -185,7 +186,7 @@ export default function Form({
                 >
                     Cancel
                 </Link>
-                <Button type="submit">Add Customer</Button>
+                <Button type="submit">Update Customer</Button>
             </div>
         </form >
     );

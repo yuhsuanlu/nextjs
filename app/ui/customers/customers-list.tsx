@@ -1,6 +1,6 @@
 import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
 
-export default async function CustomersList() {
+export default async function () {
     const customers = await fetchCustomers();
     // console.log(customers);
     return (
